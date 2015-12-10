@@ -1,4 +1,4 @@
-public class Rational  {
+public class Rational implements Comparable{
 
     public int numerator, denominator;
     
@@ -32,25 +32,45 @@ public class Rational  {
     }
     
     public void multiply(Rational tom) {   //tom is tomultiply
-        numerator *= tom.numerator;
-        denominator *= tom.denominator;
+	if (tom.equals(null)){
+	    throw new NullPointerException ("Error: null input");
+	}
+	else {
+	    numerator *= tom.numerator;
+	    denominator *= tom.denominator;
+	}
     }
     
     public void divide(Rational tod) {      //tod is todivide
-        numerator *= tod.denominator;
-        denominator *= tod.numerator;
+	if (tod.equals(null)){
+	    throw new NullPointerException ("Error: null input");
+	}
+	else {
+	    numerator *= tod.denominator;
+	    denominator *= tod.numerator;
+	}
     }
     
     public void add(Rational toad) {           // toad is toadd
-        numerator*=toad.denominator;
-        numerator+=(toad.numerator*denominator);
-        denominator*=toad.denominator;
+	if (toad.equals(null)){
+	    throw new NullPointerException ("Error: null input");
+	}
+	else {
+	    numerator*=toad.denominator;
+	    numerator+=(toad.numerator*denominator);
+	    denominator*=toad.denominator;
+	}
     }
     
     public void subtract(Rational toss) {      //toss is tosubtract
-        numerator*=toss.denominator;
-        numerator-=(toss.numerator*denominator);
-        denominator*=toss.denominator;
+	if (toss.equals(null)){
+	    throw new NullPointerException ("Error: null input");
+	}
+	else {
+	    numerator*=toss.denominator;
+	    numerator-=(toss.numerator*denominator);
+	    denominator*=toss.denominator;
+	}
     }
     
     public int gcd() {
@@ -72,7 +92,10 @@ public class Rational  {
     }
     
     public boolean equals(Rational other) {
-        if (this == other) {
+	if (other.equals(null)){
+	    throw new NullPointerException ("Error: null input");
+	}
+        else if (this == other) {
             return true;
         }
         else {   //reduces fractions
@@ -91,10 +114,13 @@ public class Rational  {
         }
     }
     
-    public int compareTo(Object O) {
-        if (O instanceof Rational) {
+    public int compareTo(Object o) {
+	if (o.equals(null)){
+	    throw new NullPointerException ("Error: null input");
+	}
+        else if (o instanceof Comparable) {
             Rational dis = this;
-            Rational other = ((Rational)O);
+            Rational other = ((Rational)o);
             dis.reduce();
             other.reduce();
             int p1 = dis.numerator * other.denominator; //same implementation as equals
@@ -111,8 +137,7 @@ public class Rational  {
             }
         }
         else {
-            System.out.println("Not a rational.");
-            return -2;
+            throw new ClassCastException ("Error: Not of Comparable class.");
         }
     }
 

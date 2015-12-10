@@ -1,9 +1,9 @@
-public class Hexadecimal {
-
+public class Hexadecimal implements Comparable{
+    
     private int _decNum;
     private String _hexNum;
     private final static String HEXDIGITS = "0123456789ABCDEF";
-
+    
     /*=====================================
       default constructor
       pre:  n/a
@@ -35,7 +35,7 @@ public class Hexadecimal {
 	_decNum = hextoDecR(s);
 	_hexNum = s;
     }
-
+    
 
     /*=====================================
       String toString() -- returns String representation of this Object
@@ -65,7 +65,7 @@ public class Hexadecimal {
 	}
 	return te;
     }
-
+    
 
     /*=====================================
       String dectoHexR(int) -- converts base-10 input to hexadecimal, recursively
@@ -87,8 +87,8 @@ public class Hexadecimal {
 	}
 	return te;
     }
-
-
+    
+    
     /*=====================================
       String hextoDec(String) -- converts base-10 input to hexadecimal
       pre:  s represents non-negative hexadecimal number
@@ -110,7 +110,7 @@ public class Hexadecimal {
 	return te;
     }
 
-
+    
     /*=====================================
       String hextoDecR(String) -- converts base-10 input to hexadecimal, recursively
       pre:  s represents non-negative hexadecimal number
@@ -133,20 +133,27 @@ public class Hexadecimal {
 	return te;
     }
 
-
+    
     /*=============================================
       boolean equals(Object) -- tells whether 2 Objs are equivalent
       pre:  other is an instance of class Hexadecimal
       post: Returns true if this and other are aliases (pointers to same 
       Object), or if this and other represent equal hexadecimal values
       =============================================*/
-
-    public boolean equals( Object other ) { 
-	return ((this==other) || (this.toString().equals(other.toString())));
+    
+    public boolean equals( Object other ) {
+	if (other.equals(null)){
+	    throw new NullPointerException ("Error: null input");
+	}
+	else if (other instanceof Comparable){
+	    return ((this==other) ||
+		    (this.toString().equals(other.toString())));
+	}
+	else {
+	    throw new ClassCastException ("Error: Not of Comparable class");
+	}
     }
-    /*
-    */
-
+    
     /*=============================================
       int compareTo(Object) -- tells which of two Hexadecimal objects is greater
       pre:  other is instance of class Hexadecimal
@@ -155,7 +162,13 @@ public class Hexadecimal {
       =============================================*/
 
     public int compareTo( Object other ) {
-	if(this._decNum == ((Hexadecimal)other)._decNum){
+	if (other.equals(null)){
+	    throw new NullPointerException ("Error: null input");
+	}
+	else if (!(other instanceof Comparable)){
+	    throw new ClassCastException ("Error: Not of Comparable class");
+	}
+	else if(this._decNum == ((Hexadecimal)other)._decNum){
 	    return 0;
 	}
 	else if(this._decNum > ((Hexadecimal)other)._decNum){
@@ -165,9 +178,7 @@ public class Hexadecimal {
 	    return -1;
 	}
     }
-    /*
-    */
-
+        
     //main method for testing
     public static void main( String[] args ) {
 

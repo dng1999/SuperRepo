@@ -1,13 +1,13 @@
-public class SuperArray{
+public class SuperArray implements ListInt{
 
-        //~~~~~INSTANCE VARS~~~~~
-        //underlying container, or "core" of this data structure:
-    private int[] _data;
+    //~~~~~INSTANCE VARS~~~~~
+    //underlying container, or "core" of this data structure:
+    private Comparable[] _data;
 
-        //position of last meaningful value
+    //position of last meaningful value
     private int _lastPos;
 
-        //size of this instance of SuperArray
+    //size of this instance of SuperArray
     private int _size;
 
     //=====Accessors for instance variables=========
@@ -19,10 +19,10 @@ public class SuperArray{
         return _size;
     }
     
-        //~~~~~METHODS~~~~~
+    //~~~~~METHODS~~~~~
     //default constructor that initializes 10-item array
     public SuperArray() {
-        _data = new int[10];
+        _data = new Comparable[10];
         _lastPos = -1; //nothing has been changed yet'
         _size = 0;
     }
@@ -45,8 +45,8 @@ public class SuperArray{
 
         
     //double capacity of this SuperArray
-    private void expand() {
-        int[] temp = new int[_data.length * 2];
+    public void expand() {
+        Comparable[] temp = new Comparable[_data.length * 2];
         for (int i = 0 ; i < _data.length ; i++) {
             temp[i] = _data[i];
         }      
@@ -55,20 +55,20 @@ public class SuperArray{
 
         
     //accessor -- return value at specified index
-    public int get( int index ) {
+    public Comparable get( int index ) {
         return _data[index];
     }
 
         
     //mutator -- set value at index to newVal, 
     //           return old value at index
-    public int set( int index, int newVal ) {
-        int old = _data[index];
+    public Comparable set( int index, Comparable newVal ) {
+        Comparable old = _data[index];
         _data[index] = newVal;
         return old;
     }
     
-    public void add(int a) { 
+    public void add(Comparable a) { 
         _lastPos += 1;
         if (_lastPos >= _size) { //expand the array until the size is big enough
             expand();
@@ -77,7 +77,7 @@ public class SuperArray{
         _size += 1;
     }
     
-    public void add(int a, int index) {
+    public void add(int index, Comparable a) {
         if (index > _lastPos) {
             add(a);
         }
@@ -102,9 +102,57 @@ public class SuperArray{
         _lastPos -= 1;
     }
 
+    //~~~~~METHODS additional~~~~~
+    //finds first instance of input
+    public int linSearch (Comparable c){
+	for (int i=0;i<_lastPos+1;i++){
+	    if (_data[i].compareTo(c)==0){
+		return i;
+	    }
+	}
+	return -1;
+    }
+
+    //checks to see if _data is sorted from least to greatest or vice versa
+    public boolean isSorted(){
+	boolean LToG=true;
+	boolean GToL=true;
+	for (int i=1;i<_lastPos+1;i++){
+	    //check from least to greatest first
+	    if (_data[i-1].compareTo(_data[i])>0){
+		LToG=false;
+	    }
+	    //check from greatest to least first
+	    if (_data[i-1].compareTo(_data[i])<0){
+		GToL=false;
+	    }
+	}
+	return (LToG || GToL);
+    }
+
     //main method for testing
     public static void main( String[] args ) {
-        System.out.println("Testing constructors...");
+	System.out.println("---linSearch---");
+	
+	SuperArray zed=new SuperArray();
+	zed.add(new Binary(1));
+	zed.add(new Rational(4,2));
+	zed.add(new Hexadecimal(3));
+	zed.add(new Binary(4));
+	zed.add(new Hexadecimal(5));
+	System.out.println(zed.linSearch(new Binary(1)));
+	System.out.println(zed.linSearch(new Hexadecimal(5)));
+	System.out.println(zed.linSearch(new Rational (4,2)));
+	System.out.println(zed.isSorted());
+	
+	SuperArray yve=new SuperArray();
+	yve.add(new Binary(1));
+	yve.add(new Binary(4));
+	yve.add(new Rational(4,2));
+	yve.add(new Hexadecimal(5));
+	yve.add(new Hexadecimal(3));
+	System.out.println(yve.isSorted());
+        /* System.out.println("Testing constructors...");
         SuperArray test = new SuperArray();
         System.out.println("Last Position: " + test._lastPos);
         System.out.println("Size: " + test._size);
@@ -157,7 +205,7 @@ public class SuperArray{
         System.out.println("\nTesting add at index...");
         ltest.add(4096, 10);
         ltest.add(8192, 20);
-        System.out.println(ltest.toString()); 
+        System.out.println(ltest.toString()); */
     }//end main
 
 }//end class

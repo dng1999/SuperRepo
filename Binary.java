@@ -1,4 +1,4 @@
-public class Binary {
+public class Binary implements Comparable {
 
     private int _decNum;
     private String _binNum;
@@ -140,12 +140,19 @@ public class Binary {
       Object), or if this and other represent equal binary values
       =============================================*/
 
-    public boolean equals( Object other ) { 
-	return ((this==other) || (this.toString().equals(other.toString())));
+    public boolean equals( Object other ) {
+	if (other.equals(null)){
+	    throw new NullPointerException ("Error: null input");
+	}
+	else if (other instanceof Comparable){
+	    return ((this==other) ||
+		    (this.toString().equals(other.toString())));
+	}
+	else {
+	    throw new ClassCastException("Error: Not of Comparable class");
+	}
     }
-    /*
-     */
-
+    
     /*=============================================
       int compareTo(Object) -- tells which of two Binary objects is greater
       pre:  other is instance of class Binary
@@ -154,7 +161,13 @@ public class Binary {
       =============================================*/
 
     public int compareTo( Object other ) {
-	if(this._decNum == ((Binary)other)._decNum){
+	if (other.equals(null)){
+	    throw new NullPointerException ("Error: null input");
+	}
+	else if (!(other instanceof Comparable)){
+	    throw new ClassCastException("Error: Not of Comparable class");
+	}
+	else if(this._decNum == ((Binary)other)._decNum){
 	    return 0;
 	}
 	else if(this._decNum > ((Binary)other)._decNum){
