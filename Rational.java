@@ -92,7 +92,7 @@ public class Rational implements Comparable{
     }
     
     public boolean equals(Rational other) {
-	if (other.equals(null)){
+	if (other==null){
 	    throw new NullPointerException ("Error: null input");
 	}
         else if (this == other) {
@@ -115,12 +115,21 @@ public class Rational implements Comparable{
     }
     
     public int compareTo(Object o) {
-	if (o.equals(null)){
+	if (o==null){
 	    throw new NullPointerException ("Error: null input");
 	}
         else if (o instanceof Comparable) {
             Rational dis = this;
-            Rational other = ((Rational)o);
+	    Rational other = new Rational (1,1);
+	    if (o instanceof Rational){
+		other = ((Rational)o);
+	    }
+	    else if (o instanceof Binary){
+		other = new Rational(((Binary)o).getDec()*100,100);
+	    }
+	    else if (o instanceof Hexadecimal){
+		other = new Rational(((Hexadecimal)o).getDec()*100,100);
+	    }
             dis.reduce();
             other.reduce();
             int p1 = dis.numerator * other.denominator; //same implementation as equals

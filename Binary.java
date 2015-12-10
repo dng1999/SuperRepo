@@ -141,7 +141,7 @@ public class Binary implements Comparable {
       =============================================*/
 
     public boolean equals( Object other ) {
-	if (other.equals(null)){
+	if (other==null){
 	    throw new NullPointerException ("Error: null input");
 	}
 	else if (other instanceof Comparable){
@@ -161,24 +161,42 @@ public class Binary implements Comparable {
       =============================================*/
 
     public int compareTo( Object other ) {
-	if (other.equals(null)){
+	if (other==null){
 	    throw new NullPointerException ("Error: null input");
 	}
 	else if (!(other instanceof Comparable)){
 	    throw new ClassCastException("Error: Not of Comparable class");
 	}
-	else if(this._decNum == ((Binary)other)._decNum){
-	    return 0;
-	}
-	else if(this._decNum > ((Binary)other)._decNum){
-	    return 1;
-	}
 	else{
-	    return -1;
+	    if (other instanceof Binary){
+		if(this._decNum == ((Binary)other).getDec()){
+		    return 0;
+		}
+		else if(this._decNum > ((Binary)other).getDec()){
+		    return 1;
+		}
+	    }
+	    else if (other instanceof Hexadecimal){
+		if(this._decNum == ((Hexadecimal)other).getDec()){
+		    return 0;
+		}
+		else if(this._decNum > ((Hexadecimal)other).getDec()){
+		    return 1;
+		}
+	    }
+	    else if (other instanceof Rational){
+		if (this._decNum == ((Rational)other).floatValue()){
+		    return 0;
+		}
+		else if(this._decNum > ((Rational)other).floatValue()){
+		    return 1;
+		}
+	    }
 	}
+	return -1;
     }
-    /*
-     */
+
+    public int getDec(){return _decNum;}
 
     //main method for testing
     public static void main( String[] args ) {
