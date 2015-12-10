@@ -1,4 +1,4 @@
-public class SuperArray implements ListInt {
+public class SuperArray{
 
         //~~~~~INSTANCE VARS~~~~~
         //underlying container, or "core" of this data structure:
